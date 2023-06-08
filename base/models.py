@@ -7,5 +7,3 @@ class ImageFile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='static')
     image_text = models.TextField(null=True)
-
-    

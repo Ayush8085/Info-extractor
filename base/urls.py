@@ -9,4 +9,6 @@ urlpatterns = [
     path('register/', views.registerUser, name='register-user'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+
+    path('image-detail/<str:pk>/', views.image, name='image-detail'),
 ]

@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<br>
+
+<div class="card">
+    <h5 class="card-header">{{image.user.username}}</h5>
+    <div class="card-body">
+      {% comment %} <h5 class="card-title">Special title treatment</h5> {% endcomment %}
+      <p class="card-text">{{image.image_text}}</p>
+      <a href="{% url 'home' %}" class="btn btn-primary">Go Back</a>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 
 from PIL import Image
+
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
@@ -14,8 +14,6 @@ from .models import ImageFile
 
 @login_required
 def home(request):
-
-    context = {}
 
     if request.method == 'POST':
         pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'
@@ -32,7 +30,7 @@ def home(request):
 
         return redirect('home')
 
-    images = ImageFile.objects.all()
+    images = ImageFile.objects.all().order_by('-id')
 
     context = {'images': images}
     return render(request, 'imageprocess.html', context)
@@ -49,3 +47,10 @@ def registerUser(request):
 
     context = {'form': form}
     return render(request, 'register.html', context)
+
+@login_required
+def image(request, pk):
+    image = ImageFile.objects.get(id=pk)
+
+    context = {'image': image}
+    return render(request, 'image-detail.html', context)
