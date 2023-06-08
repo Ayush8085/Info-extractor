@@ -1,6 +1,26 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<h1>Home Page</h1>
+
+<form method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Upload image file:</label><br>
+        <input class="form-control" type="file" name="image-file" id="formFile"><br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
+
+<!-- -----------------------DISPLAY TEXT OF IMAGE-------------------- -->
+{% for image in images %}
+<div class="card">
+    <div class="card-body">
+      <p class="card-text">{{image.image_text}}</p>
+    </div>
+</div><br>
+{% endfor %}
 
 {% endblock content %}

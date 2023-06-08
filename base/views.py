@@ -1,14 +1,41 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
+from PIL import Image
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
+
+import pytesseract
+
+from .models import ImageFile
 
 # Create your views here.
 
 @login_required
 def home(request):
-    return render(request, 'imageprocess.html')
+
+    context = {}
+
+    if request.method == 'POST':
+        pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'
+
+        image = request.FILES['image-file']
+
+        text = pytesseract.image_to_string(Image.open(image))
+        
+        ImageFile.objects.create(
+            user = request.user,
+            image = image,
+            image_text = text
+        )
+
+        return redirect('home')
+
+    images = ImageFile.objects.all()
+
+    context = {'images': images}
+    return render(request, 'imageprocess.html', context)
 
 def registerUser(request):
     form = RegisterForm()
